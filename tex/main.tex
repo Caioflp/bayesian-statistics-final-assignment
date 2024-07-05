@@ -1,0 +1,53 @@
+\documentclass[a4paper, 12pt]{article}
+
+\input{preamble}
+
+\title{{\Large\bfseries\sffamily Bayesian Statistics --- Assignment 2} \\ \large\sffamily On the Bayesian Lasso}
+\author{\normalsize Caio Peixoto}
+\date{\normalsize\today}
+
+\begin{document}
+
+\maketitle
+
+\section{LASSO regression and the Laplace prior}
+The\footnote{Corresponds to items a) and b).}
+
+\begin{itemize}
+    \item Introduce notation for linear regression;
+    \item Explain the Lasso regularization;
+    \item Explain why the L1 norm produces shrinkage;
+    \item Show how the LASSO estimator is the MAP estimator when using the Laplace prior;
+    \item Explain the conditional structure of the Laplace prior;
+    \item Comment on possible advantages of having a full probability distribution for the parameters;
+    \item Talk about possible disadvantages of using the Laplace prior, allude to excessive shrinkage in the experiments;
+\end{itemize}
+
+\section{The Gibbs sampler}
+The\footnote{Corresponds to items c) and d).}
+
+\begin{itemize}
+    \item Explain the sampling hierarchy suggested by Park and Casella.
+    \item Modify the hierarchy to facilitate MAP estimation;
+    \item Discuss how one should include information about the measurement noise parameter?
+    \item Discuss why marginalize $\mu$ in the computation and when that is and is not desirable;
+    \item Show how to recover inferences about $ \mu  $ in the marginalized case.
+\end{itemize}
+
+\section{But can it actually shrink?}
+For\footnote{Corresponds to item e).}
+each scenario:
+\begin{itemize}
+    \item Show table with Stan summary;
+    \item Show trace plots of chains for all parameters;
+    \item Show prior and posterior predictive distributions;
+    \item Show graph with 95\% confidence intervals for all parameters;
+\end{itemize}
+
+\section{Choosing $\lambda$}
+The\footnote{Corresponds to item f).}
+
+\section{The ``Huberised'' LASSO}
+The\footnote{Corresponds to item g).}
+
+\end{document}
