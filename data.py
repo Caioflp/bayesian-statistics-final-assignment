@@ -18,8 +18,7 @@ def generate_linear_regression_data(n, p, x_cov_matrix, beta, mu, sigma):
         "beta": beta,
     }
 
-def generate_data_for_scenario_1():
-    n = 100
+def generate_data_for_scenario_1(n):
     p = 8
     rho = 0.5
     axis_0, axis_1 = np.indices((p, p))
@@ -29,8 +28,7 @@ def generate_data_for_scenario_1():
     sigma = 3.0
     return generate_linear_regression_data(n, p, x_cov_matrix, beta, mu, sigma)
 
-def generate_data_for_scenario_2():
-    n = 100
+def generate_data_for_scenario_2(n):
     p = 8
     rho = 0.5
     axis_0, axis_1 = np.indices((p, p))
@@ -40,8 +38,7 @@ def generate_data_for_scenario_2():
     sigma = 3.0
     return generate_linear_regression_data(n, p, x_cov_matrix, beta, mu, sigma)
 
-def generate_data_for_scenario_3():
-    n = 100
+def generate_data_for_scenario_3(n):
     p = 8
     rho = 0.5
     axis_0, axis_1 = np.indices((p, p))
@@ -52,8 +49,7 @@ def generate_data_for_scenario_3():
     sigma = 2.0
     return generate_linear_regression_data(n, p, x_cov_matrix, beta, mu, sigma)
 
-def generate_data_for_scenario_4():
-    n = 500
+def generate_data_for_scenario_4(n):
     p = 40
     x_cov_matrix = 0.5 * np.ones((p, p)) + 0.5 * np.eye(p)
     beta = np.concatenate([

@@ -19,21 +19,25 @@ SEED = 42
 OUTPUT_DIR = Path("outputs")
 
 
-def artificial_scenarios_experiment():
-    experiment_dir = OUTPUT_DIR / "artificial_scenarios"
+def artificial_scenarios_experiment(n_data_points=100):
+    experiment_dir = OUTPUT_DIR / f"artificial_scenarios_n={n_data_points}"
     data_generation_functions = [
         generate_data_for_scenario_1,
-        # generate_data_for_scenario_2,
-        # generate_data_for_scenario_3,
-        # generate_data_for_scenario_4
+        generate_data_for_scenario_2,
+        generate_data_for_scenario_3,
+        generate_data_for_scenario_4
     ]
-    for i, generate_data in enumerate(data_generation_functions):
+    for i, generate_data in enumerate(data_generation_functions, start=1):
         scenario_dir = experiment_dir / f"scenario_{i}"
         stan_csv_dir = scenario_dir / "csv"
-        shutil.rmtree(stan_csv_dir)
+        if stan_csv_dir.exists():
+            shutil.rmtree(stan_csv_dir)
         stan_csv_dir.mkdir(parents=True)
 
-        data = generate_data()
+        if i == 4:
+            data = generate_data(n_data_points * 5)
+        else:
+            data = generate_data(n_data_points)
         data["delta"], data["r"] = 1.0, 0.1 # weakly informative exponential prior
         stan_file = Path("stan/lasso.stan")
         model = CmdStanModel(stan_file=stan_file)
@@ -48,7 +52,7 @@ def artificial_scenarios_experiment():
         # Save summaries
         summary = fit.summary(percentiles=(2.5, 50, 97.5), sig_figs=4)
         with open(scenario_dir / "summary.tex", "w") as file:
-            summary_to_save = summary.loc["lp__":"lambda", "2.5%":"R_hat"].drop("N_Eff/s", axis=1)
+            summary_to_save = summary.loc["lp__":"lambda", "N_Eff":"R_hat"].drop("N_Eff/s", axis=1)
             summary_to_save.columns = [column.replace("%", "\%") for column in summary_to_save.columns]
             summary_to_save.to_latex(file)
 
@@ -83,9 +87,36 @@ def artificial_scenarios_experiment():
             axs.flatten()[j].set_title(f"Iteration {iteration%10_000} from chain {iteration//10_000}")
         fig.suptitle("Posterior predictive samples of y")
         fig.savefig(scenario_dir / "posterior_predictive_check.pdf")
-        return fit
 
-fit = artificial_scenarios_experiment()
+        # Plot 95% credibility intervals
+        betas = fit.draws_pd().loc[:, "beta[1]":f"beta[{data['p']}]"]
+        fig, ax = plt.subplots(figsize=(5, data["p"]//3))
+        sns.boxplot(
+            data=betas,
+            orient="h",
+            width=0.5,
+            whis=(2.5, 97.5),
+            fliersize=0,
+            ax=ax,
+            legend="auto",
+            color="blue",
+            gap=0.5,
+            fill=False,
+            zorder=1
+        )
+        true_beta = data["beta"]
+        ax.scatter(
+            x=true_beta,
+            y=list(range(len(true_beta))),
+            c="red",
+            marker="x",
+            zorder=2,
+        )
+        ax.axvline(x=0, linestyle="--", alpha=0.5, color="red")
+        ax.set_title("95% credibility intervals")
+        fig.savefig(scenario_dir / "credibility_intervals.pdf")
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    artificial_scenarios_experiment(n_data_points=20)
+    artificial_scenarios_experiment(n_data_points=100)
