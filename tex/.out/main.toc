@@ -1,0 +1,4 @@
+\contentsline {section}{\numberline {1}LASSO regression and the Laplace prior}{1}{section.1}%
+\contentsline {section}{\numberline {2}The Gibbs sampler}{2}{section.2}%
+\contentsline {section}{\numberline {3}But can it actually shrink?}{3}{section.3}%
+\contentsline {section}{\numberline {4}Choosing $\lambda $}{7}{section.4}%

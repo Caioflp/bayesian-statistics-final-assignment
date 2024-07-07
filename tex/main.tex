@@ -120,11 +120,13 @@ The authors mention that, should one desire to sample from $ \mu $, its full con
 % \end{itemize}
 
 \section{But can it actually shrink?}
-In\footnote{Corresponds to item e).} this section, we will investigate the shrinking properties of the Bayesian LASSO using the artificial data scenarios in presented in the Section 7.2 of \cite{tibshirani1994lasso}.
+\label{sec: artificial data experiments}
+In\footnote{Corresponds to item e).}\footnote{All code for the experiments in Sections \ref{sec: artificial data experiments} and \ref{sec: diabetes data experiment} is openly available in \href{https://github.com/Caioflp/bayesian-statistics-final-assignment}{Github} } this section, we will investigate the shrinking properties of the Bayesian LASSO using the artificial data scenarios in presented in the Section 7.2 of \cite{tibshirani1994lasso}.
 All the scenarios consist of generating $ n $ samples from the model in (\ref{eq: likelihood}), where the lines of $ \bX $ are independent samples from a multivariate normal distribution.
-For the prior distribution, we employed the prior in (\ref{eq: conditional laplace prior}), with an additional $ \distgamma (\delta, r) $ prior\footnote{Here, $ \delta $ and $ r $ are the \emph{shape and rate} parameters, respectively.} on $ \lambda^2 $ (not $\lambda$), as suggested in Section 3.2 of \cite{parkcasella2008bayesianlasso}.
+We considered two sample sizes: $ n = 20 $ and $ n = 100 $.
+For the prior distribution, we employed the prior in (\ref{eq: conditional laplace prior}), with an additional $ \distgamma (\delta, r) $ prior\footnote{Here, $ \delta $ and $ r $ are the \emph{shape and rate} parameters, respectively. This is the \emph{opposite} of what is done in \cite{parkcasella2008bayesianlasso}, however, I realized this mistake far too late to fix it. Fortunately, the only place where this might be annoying is in the next section.} on $ \lambda^2 $ (not $\lambda$), as suggested in Section 3.2 of \cite{parkcasella2008bayesianlasso}.
 We specified a weakly-informative prior by choosing $ \delta = 1.0 $ and $ r = 0.1 $.
-The sampling scheme we chose was NUTS-HMC, utilized through \texttt{Stan} \cite{stan2024}.
+The sampling scheme we chose was NUTS-HMC, utilized through \texttt{Stan} \cite{stan2024} and \texttt{CmdStanPy}.
 For each dataset, we sampled from $ 5 $ chains, using $ 1000 $ warm-up samples and $ 10 000 $ samples from (hopefully) the posterior.
 On a last note, we also standardized the columns of $ \bX $ to have mean $ 0 $ and variance $ 1 $.
 This is a good practice also employed in \cite{parkcasella2008bayesianlasso}, as it puts all covariates in the same scale.
@@ -139,7 +141,6 @@ For this scenario, the parameters were
 .\end{align*}
 The correlation between $ x_{ i } $ and $ x_{ j } $ was set to $ \rho^{ \abs{ i - j } } $, with $ \rho = 0.5 $.
 All $ (x_{ i })_{ 1 \leq i \leq 8 } $ had mean $ 0 $.
-We studied two sample sizes: $ n = 20 $ and $ n = 100 $.
 
 Effective sample size and $ \hat{ R } $ statistics are in Table \ref{tab: Eff and Rhat scenario 1}.
 We can see that, for both values of $ n $, the $ \hat{ R } $ values are very close to one, indicating that we are indeed sampling from the posterior.
@@ -149,7 +150,7 @@ The effective sample sizes are also quite high, which allows us to trust the cre
     \input{../outputs/artificial_scenarios_n=20/scenario_1/summary.tex}
     \quad
     \input{../outputs/artificial_scenarios_n=100/scenario_1/summary.tex}
-    \caption{Effective sample size and $ \hat{ R } $ statistics for Scenario 1, with four significant digits.}
+    \caption{Effective sample sizes and $ \hat{ R } $ statistics for Scenario 1, reported with four significant digits.}
     \label{tab: Eff and Rhat scenario 1}
 \end{table}
 In order to further assess chain mixing, we show trace plots of the parameters in Figure \ref{fig: traceplots scenario 1}.
@@ -172,35 +173,262 @@ This can be due to the large variance ($ \sigma^2 = 9 $) in the data generating 
         \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=20/scenario_1/posterior_predictive_check.png}
         \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=100/scenario_1/posterior_predictive_check.png}
     \end{center}
-    \caption[Posterior predictive checks for Scenario 1.]{Posterior predictive checks for Scenario 1. The parameters corresponding to these $ 8 $ (for each $ n $) simulated values from $ \by $ were randomly and uniformly chosen across all samples from the posterior.}
+    \caption[Posterior predictive checks for Scenario 1.]{Posterior predictive checks for Scenario 1. The parameters corresponding to these $ 5$ (for each $ n $) simulated values from $ \by $ were randomly and uniformly chosen across all samples from the posterior.}
     \label{fig: posterior predictive check scenario 1}
 \end{figure}
 
 To assess shrinkage, we computed $ 95\% $ credibility intervals using the $ 2.5\% $ and $ 97.5\% $ quantiles of the $ 50 000 $ posterior samples.
-These are shown in Figure
+We interpret that a parameter should be set to $ 0 $ when the corresponding $ 95\% $ credibility interval contains $ 0 $.
+These are shown in Figure \ref{fig: credibility intervals scenario 1}.
+For comparison, we also plotted the true $ \betabold_{ i } $ values, as well as the estimate produced by the classical LASSO when $ \lambda $ is chosen through cross validation.
+
+We can see that, for the smaller sample size, the Bayesian LASSO correctly produced credibility intervals which are centered around $ 0 $ for the $ \betabold_{ i } $'s which were actually zero.
+However, it had difficulty producing credibility intervals which clearly put the non-zero parameters away from zero, getting $ \betabold_{ 5 } $ completely wrong, for example.
+On a positive note for Bayesians, the classical LASSO was guilty of the same mistakes, since its estimates always fell within the $ (25\%, 75\%) $ credibility interval of the Bayesian LASSO.
+For the larger sample size, however, the Bayesian LASSO showed a significant improvement.
+It managed to correctly separate the null parameters from the non-null ones, while the classical LASSO failed to set any parameter to $ 0 $.
 \begin{figure}[htb]
     \begin{center}
         \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=20/scenario_1/credibility_intervals.png}
         \vspace{1cm}
         \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=100/scenario_1/credibility_intervals.png}
     \end{center}
-    \caption[95\% credibility intervals for Scenario 1.]{95\% credibility intervals for Scenario 1. The red crosses are the true parameter values. The vertical red line corresponds to $ x = 0 $.}
-    \label{}
+    \caption[95\% credibility intervals for Scenario 1.]{95\% credibility intervals for Scenario 1. The red dots are the classical LASSO's predictions when fit using cross validation, and the black crosses are the true parameter values. The vertical red line corresponds to $ x = 0 $.}
+    \label{fig: credibility intervals scenario 1}
 \end{figure}
 
-For each scenario:
-\begin{itemize}
-    \item Show table with Stan summary;
-    \item Show trace plots of chains for all parameters;
-    \item Show prior and posterior predictive distributions;
-    \item Show graph with 95\% confidence intervals for all parameters;
-\end{itemize}
+
+\subsection*{Scenario 2}
+
+For this scenario, the parameters were
+\begin{align*}
+    \betabold &= (0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85) \\
+    \sigma &= 3
+.\end{align*}
+The distribution of $ \bX $ was the same as in Scenario 1.
+Effective sample sizes and $ \hat{ R } $ statistics are in Table \ref{tab: Eff and Rhat scenario 2}, while trace plots, posterior predictive checks and 95\% credibility intervals are in Figures \ref{fig: traceplots scenario 2}, \ref{fig: posterior predictive check scenario 2} and \ref{fig: credibility intervals scenario 2}, respectively.
+\begin{table}[htb]
+    \centering
+    \input{../outputs/artificial_scenarios_n=20/scenario_2/summary.tex}
+    \quad
+    \input{../outputs/artificial_scenarios_n=100/scenario_2/summary.tex}
+    \caption{Effective sample sizes and $ \hat{ R } $ statistics for Scenario 2, reported with four significant digits.}
+    \label{tab: Eff and Rhat scenario 2}
+\end{table}
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[height=.4\textheight]{../outputs/artificial_scenarios_n=20/scenario_2/traceplots.png}
+        \includegraphics[height=.4\textheight]{../outputs/artificial_scenarios_n=100/scenario_2/traceplots.png}
+    \end{center}
+    \caption[Trace plots for the parameters in Scenario 2.]{Trace plots for the parameters in Scenario 2. Each plot is from one of the 5 chains, chosen randomly and uniformly.}
+    \label{fig: traceplots scenario 2}
+\end{figure}
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=20/scenario_2/posterior_predictive_check.png}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=100/scenario_2/posterior_predictive_check.png}
+    \end{center}
+    \caption[Posterior predictive checks for Scenario 2.]{Posterior predictive checks for Scenario 2. The parameters corresponding to these $ 5$ (for each $ n $) simulated values from $ \by $ were randomly and uniformly chosen across all samples from the posterior.}
+    \label{fig: posterior predictive check scenario 2}
+\end{figure}
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=20/scenario_2/credibility_intervals.png}
+        \vspace{1cm}
+        \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=100/scenario_2/credibility_intervals.png}
+    \end{center}
+    \caption[95\% credibility intervals for Scenario 2.]{95\% credibility intervals for Scenario 2. The red dots are the classical LASSO's predictions when fit using cross validation, and the black crosses are the true parameter values. The vertical red line corresponds to $ x = 0 $.}
+    \label{fig: credibility intervals scenario 2}
+\end{figure}
+Once again, effective sample sizes and $ \hat{ R } $ statistics are very healthy, as well as the trace plots.
+The posterior predictive distribution for $ \by $ were again misaligned with the data for $ n = 20 $, but were much more faithful for $ n = 100 $.
+This scenario differs from Scenario 1 in that \emph{no true coefficients were $ 0 $.}
+This creates an awkward situation, in which, for $ n = 20 $, both the classical LASSO and the Bayesian LASSO shrunk all coefficients to $ 0 $, although it should be noted that all but two Bayesian LASSO credibility intervals correctly included the true $ \betabold_{ i } $ value.
+When $ n = 100 $, however, the situation changes.
+Four Bayesian LASSO credibility intervals correctly did not shrink the parameter to zero and included the true parameter value.
+The other four wrongly included $ 0 $, but just barely.
+Once again, for both sample sizes the classical LASSO estimates tended to fall within the $ (25\%, 75\%) $ credibility interval of the Bayesian LASSO.
+
+\subsection*{Scenario 3}
+For this scenario, the parameters were
+\begin{align*}
+    \betabold &= (5, 0, 0, 0, 0, 0, 0, 0) \\
+    \sigma &= 2
+.\end{align*}
+The distribution of $ \bX $ was the same as in Scenarios 1 and 2.
+Effective sample sizes and $ \hat{ R } $ statistics are in Table \ref{tab: Eff and Rhat scenario 3}, while trace plots, posterior predictive checks and 95\% credibility intervals are in Figures \ref{fig: traceplots scenario 3}, \ref{fig: posterior predictive check scenario 3} and \ref{fig: credibility intervals scenario 3}, respectively.
+The comments about effective sample size, $ \hat{ R } $ statistics, trace plots and posterior predictive checks made previously also apply here.
+\begin{table}[htb]
+    \centering
+    \input{../outputs/artificial_scenarios_n=20/scenario_3/summary.tex}
+    \quad
+    \input{../outputs/artificial_scenarios_n=100/scenario_3/summary.tex}
+    \caption{Effective sample sizes and $ \hat{ R } $ statistics for Scenario 3, reported with four significant digits.}
+    \label{tab: Eff and Rhat scenario 3}
+\end{table}
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[height=.4\textheight]{../outputs/artificial_scenarios_n=20/scenario_3/traceplots.png}
+        \includegraphics[height=.4\textheight]{../outputs/artificial_scenarios_n=100/scenario_3/traceplots.png}
+    \end{center}
+    \caption[Trace plots for the parameters in Scenario 3.]{Trace plots for the parameters in Scenario 3. Each plot is from one of the 5 chains, chosen randomly and uniformly.}
+    \label{fig: traceplots scenario 3}
+\end{figure}
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=20/scenario_3/posterior_predictive_check.png}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=100/scenario_3/posterior_predictive_check.png}
+    \end{center}
+    \caption[Posterior predictive checks for Scenario 3.]{Posterior predictive checks for Scenario 3. The parameters corresponding to these $ 5$ (for each $ n $) simulated values from $ \by $ were randomly and uniformly chosen across all samples from the posterior.}
+    \label{fig: posterior predictive check scenario 3}
+\end{figure}
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=20/scenario_3/credibility_intervals.png}
+        \vspace{1cm}
+        \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=100/scenario_3/credibility_intervals.png}
+    \end{center}
+    \caption[95\% credibility intervals for Scenario 3.]{95\% credibility intervals for Scenario 3. The red dots are the classical LASSO's predictions when fit using cross validation, and the black crosses are the true parameter values. The vertical red line corresponds to $ x = 0 $.}
+    \label{fig: credibility intervals scenario 3}
+\end{figure}
+
+This scenario is much more friendly for sparse regression methods, since the variance of $ \by $ is smaller and almost all coefficients are exactly $ 0 $, except for $ \betabold_{ 1 } $, which is considerably large, given the scale of $ \bX $.
+This is apparent in the credibility intervals, which managed to always include the true parameter value, as well as shrink only the parameters which were actually $ 0 $.
+The increase in sample size only decreased the size of the intervals.
+The classical LASSO also had a good performance, staying very close to the median of the Bayesian LASSO.
+
+\subsection*{Scenario 4}
+For this scenario, the parameters were
+\begin{align*}
+    \betabold &= (0, 0, \dots, 0, 2, 2, \dots, 2, 0, 0, \dots, 0, 2, 2, \dots, 2) \\
+    \sigma &= 15
+,\end{align*}
+where each block in $ \betabold $ has size 10, meaning the total number of covariates is $ p = 40 $.
+The correlation between different predictors was set to $ 0.5 $.
+Since this model is much larger than the other three, the sample sizes we analyzed were $ n = 100 $ and $ n = 500 $.
+Effective sample sizes and $ \hat{ R } $ statistics are in Table \ref{tab: Eff and Rhat scenario 4}, while posterior predictive checks and 95\% credibility intervals are in Figures \ref{fig: posterior predictive check scenario 4} and \ref{fig: credibility intervals scenario 4}, respectively.
+Given the number of covariates, we did not analyze trace plots.
+The comments about effective sample size, $ \hat{ R } $ statistics and posterior predictive checks made previously also apply here.
+\begin{table}[htb]
+    \centering
+    \input{../outputs/artificial_scenarios_n=20/scenario_4/summary.tex}
+    \quad
+    \input{../outputs/artificial_scenarios_n=100/scenario_4/summary.tex}
+    \caption{Effective sample sizes and $ \hat{ R } $ statistics for Scenario 4, reported with four significant digits.}
+    \label{tab: Eff and Rhat scenario 4}
+\end{table}
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=20/scenario_4/posterior_predictive_check.png}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=100/scenario_4/posterior_predictive_check.png}
+    \end{center}
+    \caption[Posterior predictive checks for Scenario 4.]{Posterior predictive checks for Scenario 4. The parameters corresponding to these $ 5$ (for each $ n $) simulated values from $ \by $ were randomly and uniformly chosen across all samples from the posterior.}
+    \label{fig: posterior predictive check scenario 4}
+\end{figure}
+\begin{figure}[htb]
+    \begin{center}
+        \vspace{-4cm}
+        \begin{minipage}{.47\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../outputs/artificial_scenarios_n=20/scenario_4/credibility_intervals.png}
+        \end{minipage}%
+        \begin{minipage}{.47\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../outputs/artificial_scenarios_n=100/scenario_4/credibility_intervals.png}
+        \end{minipage}
+    \end{center}
+    \caption[95\% credibility intervals for Scenario 4.]{95\% credibility intervals for Scenario 4. The red dots are the classical LASSO's predictions when fit using cross validation, and the black crosses are the true parameter values. The vertical red line corresponds to $ x = 0 $.}
+    \label{fig: credibility intervals scenario 4}
+\end{figure}
+While all diagnostics employed indicate our sampling scheme is performing as intended, the Bayesian LASSO faced great difficulty in this scenario, collapsing all but two covariates to $ 0 $ in the $ n = 100 $ regime.
+In this sample size, the classical LASSO showed a better performance in terms of shrinkage, managing to correctly not collapse $ 14 $ non-zero parameters, in spite of failing to collapse $ 2 $ actually null ones.
+When $ n $ was increased to $ 500 $, the credibility intervals for the parameters equal to $ 2 $ generally shifted towards the positive side, but this was still not enough to correctly decide which parameters are actually $ 0 $.
+These results show that the Bayesian LASSO may face difficulties when $ p $ is large and the proportion of non-null parameters is high.
+
+
+
+% For each scenario:
+% \begin{itemize}
+%     \item Show table with Stan summary;
+%     \item Show trace plots of chains for all parameters;
+%     \item Show prior and posterior predictive distributions;
+%     \item Show graph with 95\% confidence intervals for all parameters;
+% \end{itemize}
+
 
 \section{Choosing $\lambda$}
-The\footnote{Corresponds to item f).}
+\label{sec: diabetes data experiment}
 
-\section{The ``Huberised'' LASSO}
-The\footnote{Corresponds to item g).}
+In\footnote{Corresponds to item f).} \cite{parkcasella2008bayesianlasso}, two approaches are presented to ``choose'' the LASSO parameter $ \lambda $.
+The first one is based on an EM algorithm to choose the $ \lambda $ value which maximizes the marginal likelihood of the data.
+The second one is arguably more suitable for a Bayesian analysis\footnote{And is considerably easier to implement using \texttt{Stan} \emoji{grinning-face-with-sweat}.} and consists of simply incorporating $ \lambda $ as an additional pararameter.
+As was seen in the previous section, we chose to use the second option for our experiments.
+To maintain conjugacy, one should specify a Gamma prior on $ \lambda^2 $ \cite{parkcasella2008bayesianlasso}.
+However, the choice of hyperparameters for this prior in \cite{parkcasella2008bayesianlasso} was based on a desired relationship between the prior mean and the MLE.
+This makes little sense in the Bayesian context, as the prior should not be chosen based on information gained from the data values.
+
+To analyze what effects the choice of the $ \lambda $ hyperprior hyperparameters has on the final estimate, we applied the Bayesian Lasso to the \texttt{diabetes} dataset of \cite{effron-2004-diabetes} using three combinations of hyperparameters.
+The hyperprior was $ \lambda^2 \sim \distgamma (\delta, r) $.
+The computational tools used to fit the models were the same ones described in Section \ref{sec: artificial data experiments}.
+
+\begin{itemize}
+    \item $ \delta = 1, r = 1.78: $
+    These are the hyperparameters suggested in \cite{parkcasella2008bayesianlasso}.
+    Summary statistics are presented in Table \ref{tab: diabetes summary scenario 1} and credibility intervals can be visualized in Figure \ref{fig: diabetes credibility scenario 1}.
+    Interestingly enough, our $ 95\% $, equal-tailed credibility interval for $ \lambda $ was $ ( 10.06, 11.498 ) $, completely different from the one reported in \cite{parkcasella2008bayesianlasso} of $ ( 0.139, 0.486  ) $.
+    Since our $ \hat{ R } $ values are all close to $ 1 $ and the effective sample sizes surpass 25k for all variables, we have no reason to doubt our results.
+    \begin{table}[htb]
+        \centering
+        \input{../outputs/diabetes_data/scenario_1/summary.tex}
+        \caption{Summary statistics for the hyperparameters $ \delta = 1 $ and $ r = 1.78 $.}
+        \label{tab: diabetes summary scenario 1}
+    \end{table}
+\begin{figure}
+    \centering
+    \includegraphics[width=.6\textwidth]{../outputs/diabetes_data/scenario_1/credibility_intervals.png}
+    \caption{95\% credibility intervals for Diabetes data with $ \delta = 1 $ and $ r = 1.78 $.}
+    \label{fig: diabetes credibility scenario 1}
+\end{figure}
+
+    \item $ \delta = 1.0, r = 0.1: $
+    These are the hyperparameter values we used in Section \ref{sec: artificial data experiments}.
+    Summary statistics are presented in Table \ref{tab: diabetes summary scenario 2} and credibility intervals can be visualized in Figure \ref{fig: diabetes credibility scenario 2}.
+    The $ 95\% $ credibility interval we obtain for $ \lambda $ using these values is $ ( 39.54, 45.54 ) $.
+    This is to be expected since the prior is way more diffuse and assigns more probability for larger values of $ \lambda $.
+    \begin{table}[htb]
+        \centering
+        \input{../outputs/diabetes_data/scenario_2/summary.tex}
+        \caption{Summary statistics for the hyperparameters $ \delta = 1 $ and $ r = 0.1 $.}
+        \label{tab: diabetes summary scenario 2}
+    \end{table}
+\begin{figure}
+    \centering
+    \includegraphics[width=.6\textwidth]{../outputs/diabetes_data/scenario_2/credibility_intervals.png}
+    \caption{95\% credibility intervals for Diabetes data with $ \delta = 1 $ and $ r = 0.1 $.}
+    \label{fig: diabetes credibility scenario 2}
+\end{figure}
+
+    \item $ \delta = 1.0, r = 10.0: $
+    These hyperparameter values correspond to an informative prior which puts $ \lambda^2 $ close to zero, meaning the shrinking effect is smaller.
+    Summary statistics are presented in Table \ref{tab: diabetes summary scenario 3} and credibility intervals can be visualized in Figure \ref{fig: diabetes credibility scenario 3}.
+    The $ 95\% $ credibility interval we obtain for $ \lambda $ using these values is $ ( 4.31, 4.63 ) $.
+    \begin{table}[htb]
+        \centering
+        \input{../outputs/diabetes_data/scenario_3/summary.tex}
+        \caption{Summary statistics for the hyperparameters $ \delta = 1 $ and $ r = 10 $.}
+        \label{tab: diabetes summary scenario 3}
+    \end{table}
+\begin{figure}
+    \centering
+    \includegraphics[width=.6\textwidth]{../outputs/diabetes_data/scenario_3/credibility_intervals.png}
+    \caption{95\% credibility intervals for Diabetes data with $ \delta = 1 $ and $ r = 10 $.}
+    \label{fig: diabetes credibility scenario 3}
+\end{figure}
+\end{itemize}
+It is worth noting that the credibility intervals did not change considerably while varying the hyperparameter values.
+In all three cases, only the parameters $ \betabold_{ 2 }, \betabold_{ 3 }, \betabold_{ 4 } $ and $ \betabold_{ 9 } $ were not collapsed to $ 0 $, while the median of the other parameters was similar across hyperparameter values.
+This indicates that the model is robust to the choice of prior, which is a desirable feature.
+
 
 \printbibliography
 

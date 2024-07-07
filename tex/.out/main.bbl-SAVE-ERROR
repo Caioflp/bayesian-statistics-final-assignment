@@ -1,0 +1,234 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{effron-2004-diabetes}{article}{}
+      \name{author}{4}{}{%
+        {{hash=5470455fc7dceb3ccf6db38cb22a113d}{%
+           family={Efron},
+           familyi={E\bibinitperiod},
+           given={Bradley},
+           giveni={B\bibinitperiod}}}%
+        {{hash=0cb8fe4210baa81c4b0e67913b4d2768}{%
+           family={Hastie},
+           familyi={H\bibinitperiod},
+           given={Trevor},
+           giveni={T\bibinitperiod}}}%
+        {{hash=269caf16d4edd41e34b3e9a22e1d2dc3}{%
+           family={Johnstone},
+           familyi={J\bibinitperiod},
+           given={Iain},
+           giveni={I\bibinitperiod}}}%
+        {{hash=88eea600247d798f8b2ce0b2dc614492}{%
+           family={Tibshirani},
+           familyi={T\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Institute of Mathematical Statistics}%
+      }
+      \strng{namehash}{a5fa507ba7d213808e02fe1b5aa1a830}
+      \strng{fullhash}{fbd07af61c83d5c16d5d4308c1ae67e5}
+      \strng{bibnamehash}{a5fa507ba7d213808e02fe1b5aa1a830}
+      \strng{authorbibnamehash}{a5fa507ba7d213808e02fe1b5aa1a830}
+      \strng{authornamehash}{a5fa507ba7d213808e02fe1b5aa1a830}
+      \strng{authorfullhash}{fbd07af61c83d5c16d5d4308c1ae67e5}
+      \field{labelalpha}{Efr+04}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The purpose of model selection algorithms such as All Subsets, Forward Selection and Backward Elimination is to choose a linear model on the basis of the same set of data to which the model will be applied. Typically we have available a large collection of possible covariates from which we hope to select a parsimonious set for the efficient prediction of a response variable. Least Angle Regression (LARS), a new model selection algorithm, is a useful and less greedy version of traditional forward selection methods. Three main properties are derived: (1) A simple modification of the LARS algorithm implements the Lasso, an attractive version of ordinary least squares that constrains the sum of the absolute regression coefficients; the LARS modification calculates all possible Lasso estimates for a given problem, using an order of magnitude less computer time than previous methods. (2) A different LARS modification efficiently implements Forward Stagewise linear regression, another promising new model selection method; this connection explains the similar numerical results previously observed for the Lasso and Stagewise, and helps us understand the properties of both methods, which are seen as constrained versions of the simpler LARS algorithm. (3) A simple approximation for the degrees of freedom of a LARS estimate is available, from which we derive a Cp estimate of prediction error; this allows a principled choice among the range of possible LARS estimates. LARS and its variants are computationally efficient: the paper describes a publicly available algorithm that requires only the same order of magnitude of computational effort as ordinary least squares applied to the full set of covariates.}
+      \field{issn}{00905364}
+      \field{journaltitle}{The Annals of Statistics}
+      \field{number}{2}
+      \field{title}{Least Angle Regression}
+      \field{urlday}{7}
+      \field{urlmonth}{7}
+      \field{urlyear}{2024}
+      \field{volume}{32}
+      \field{year}{2004}
+      \field{urldateera}{ce}
+      \field{pages}{407\bibrangedash 451}
+      \range{pages}{45}
+      \verb{urlraw}
+      \verb http://www.jstor.org/stable/3448465
+      \endverb
+      \verb{url}
+      \verb http://www.jstor.org/stable/3448465
+      \endverb
+    \endentry
+    \entry{parkcasella2008bayesianlasso}{article}{}
+      \name{author}{2}{}{%
+        {{hash=7021e260da7b0909f774600604ad5f50}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={Trevor},
+           giveni={T\bibinitperiod}}}%
+        {{hash=c7abc90e14f2761d9325ee092fda0de7}{%
+           family={Casella},
+           familyi={C\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Taylor \& Francis}%
+      }
+      \strng{namehash}{be85c22a432f82b682948eeb13fe0e23}
+      \strng{fullhash}{be85c22a432f82b682948eeb13fe0e23}
+      \strng{bibnamehash}{be85c22a432f82b682948eeb13fe0e23}
+      \strng{authorbibnamehash}{be85c22a432f82b682948eeb13fe0e23}
+      \strng{authornamehash}{be85c22a432f82b682948eeb13fe0e23}
+      \strng{authorfullhash}{be85c22a432f82b682948eeb13fe0e23}
+      \field{labelalpha}{PC08}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{number}{482}
+      \field{title}{The Bayesian Lasso}
+      \field{volume}{103}
+      \field{year}{2008}
+      \field{pages}{681\bibrangedash 686}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1198/016214508000000337
+      \endverb
+      \verb{eprint}
+      \verb https://doi.org/10.1198/016214508000000337
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1198/016214508000000337
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1198/016214508000000337
+      \endverb
+    \endentry
+    \entry{simpson2021}{online}{}
+      \name{author}{2}{}{%
+        {{hash=7601a622bab0cdac41b0fb166c8ac653}{%
+           family={Simpson},
+           familyi={S\bibinitperiod},
+           given={Dan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=7601a622bab0cdac41b0fb166c8ac653}{%
+           family={Simpson},
+           familyi={S\bibinitperiod},
+           given={Dan},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{727b5608d096ab922e210af766efeb38}
+      \strng{fullhash}{727b5608d096ab922e210af766efeb38}
+      \strng{bibnamehash}{727b5608d096ab922e210af766efeb38}
+      \strng{authorbibnamehash}{727b5608d096ab922e210af766efeb38}
+      \strng{authornamehash}{727b5608d096ab922e210af766efeb38}
+      \strng{authorfullhash}{727b5608d096ab922e210af766efeb38}
+      \field{labelalpha}{SS21}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{8}
+      \field{langid}{english}
+      \field{month}{12}
+      \field{title}{The King Must Die (Repost)}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://dansblog.netlify.app/2021-12-08-the-king-must-die-repost
+      \endverb
+      \verb{url}
+      \verb https://dansblog.netlify.app/2021-12-08-the-king-must-die-repost
+      \endverb
+    \endentry
+    \entry{stan2024}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=38cdaa762a62c2f6e7ff4a46c1ce1705}{%
+           family={{Stan Development Team}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{38cdaa762a62c2f6e7ff4a46c1ce1705}
+      \strng{fullhash}{38cdaa762a62c2f6e7ff4a46c1ce1705}
+      \strng{bibnamehash}{38cdaa762a62c2f6e7ff4a46c1ce1705}
+      \strng{authorbibnamehash}{38cdaa762a62c2f6e7ff4a46c1ce1705}
+      \strng{authornamehash}{38cdaa762a62c2f6e7ff4a46c1ce1705}
+      \strng{authorfullhash}{38cdaa762a62c2f6e7ff4a46c1ce1705}
+      \field{labelalpha}{Sta24}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Stan Modeling Language Users Guide and Reference Manual, Version 2.35}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb http://mc-stan.org/
+      \endverb
+      \verb{url}
+      \verb http://mc-stan.org/
+      \endverb
+    \endentry
+    \entry{tibshirani1994lasso}{article}{}
+      \name{author}{1}{}{%
+        {{hash=88eea600247d798f8b2ce0b2dc614492}{%
+           family={Tibshirani},
+           familyi={T\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {[Royal Statistical Society, Wiley]}%
+      }
+      \strng{namehash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{fullhash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{bibnamehash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{authorbibnamehash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{authornamehash}{88eea600247d798f8b2ce0b2dc614492}
+      \strng{authorfullhash}{88eea600247d798f8b2ce0b2dc614492}
+      \field{labelalpha}{Tib96}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We propose a new method for estimation in linear models. The `lasso' minimizes the residual sum of squares subject to the sum of the absolute value of the coefficients being less than a constant. Because of the nature of this constraint it tends to produce some coefficients that are exactly 0 and hence gives interpretable models. Our simulation studies suggest that the lasso enjoys some of the favourable properties of both subset selection and ridge regression. It produces interpretable models like subset selection and exhibits the stability of ridge regression. There is also an interesting relationship with recent work in adaptive function estimation by Donoho and Johnstone. The lasso idea is quite general and can be applied in a variety of statistical models: extensions to generalized regression models and tree-based models are briefly described.}
+      \field{issn}{00359246}
+      \field{journaltitle}{Journal of the Royal Statistical Society. Series B (Methodological)}
+      \field{number}{1}
+      \field{title}{Regression Shrinkage and Selection via the Lasso}
+      \field{urlday}{5}
+      \field{urlmonth}{7}
+      \field{urlyear}{2024}
+      \field{volume}{58}
+      \field{year}{1996}
+      \field{urldateera}{ce}
+      \field{pages}{267\bibrangedash 288}
+      \range{pages}{22}
+      \verb{urlraw}
+      \verb http://www.jstor.org/stable/2346178
+      \endverb
+      \verb{url}
+      \verb http://www.jstor.org/stable/2346178
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

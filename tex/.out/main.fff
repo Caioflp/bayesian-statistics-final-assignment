@@ -13,7 +13,7 @@
         \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=20/scenario_1/posterior_predictive_check.png}
         \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=100/scenario_1/posterior_predictive_check.png}
     \end{center}
-    \caption[Posterior predictive checks for Scenario 1.]{Posterior predictive checks for Scenario 1. The parameters corresponding to these $ 8 $ (for each $ n $) simulated values from $ \by $ were randomly and uniformly chosen across all samples from the posterior.}
+    \caption[Posterior predictive checks for Scenario 1.]{Posterior predictive checks for Scenario 1. The parameters corresponding to these $ 5$ (for each $ n $) simulated values from $ \by $ were randomly and uniformly chosen across all samples from the posterior.}
     \label{fig: posterior predictive check scenario 1}
 \end{figure}
 \efloatseparator
@@ -24,6 +24,119 @@
         \vspace{1cm}
         \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=100/scenario_1/credibility_intervals.png}
     \end{center}
-    \caption[95\% credibility intervals for Scenario 1.]{95\% credibility intervals for Scenario 1. The red crosses are the true parameter values. The vertical red line corresponds to $ x = 0 $.}
-    \label{}
+    \caption[95\% credibility intervals for Scenario 1.]{95\% credibility intervals for Scenario 1. The red dots are the classical LASSO's predictions when fit using cross validation, and the black crosses are the true parameter values. The vertical red line corresponds to $ x = 0 $.}
+    \label{fig: credibility intervals scenario 1}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[height=.4\textheight]{../outputs/artificial_scenarios_n=20/scenario_2/traceplots.png}
+        \includegraphics[height=.4\textheight]{../outputs/artificial_scenarios_n=100/scenario_2/traceplots.png}
+    \end{center}
+    \caption[Trace plots for the parameters in Scenario 2.]{Trace plots for the parameters in Scenario 2. Each plot is from one of the 5 chains, chosen randomly and uniformly.}
+    \label{fig: traceplots scenario 2}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=20/scenario_2/posterior_predictive_check.png}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=100/scenario_2/posterior_predictive_check.png}
+    \end{center}
+    \caption[Posterior predictive checks for Scenario 2.]{Posterior predictive checks for Scenario 2. The parameters corresponding to these $ 5$ (for each $ n $) simulated values from $ \by $ were randomly and uniformly chosen across all samples from the posterior.}
+    \label{fig: posterior predictive check scenario 2}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=20/scenario_2/credibility_intervals.png}
+        \vspace{1cm}
+        \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=100/scenario_2/credibility_intervals.png}
+    \end{center}
+    \caption[95\% credibility intervals for Scenario 2.]{95\% credibility intervals for Scenario 2. The red dots are the classical LASSO's predictions when fit using cross validation, and the black crosses are the true parameter values. The vertical red line corresponds to $ x = 0 $.}
+    \label{fig: credibility intervals scenario 2}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[height=.4\textheight]{../outputs/artificial_scenarios_n=20/scenario_3/traceplots.png}
+        \includegraphics[height=.4\textheight]{../outputs/artificial_scenarios_n=100/scenario_3/traceplots.png}
+    \end{center}
+    \caption[Trace plots for the parameters in Scenario 3.]{Trace plots for the parameters in Scenario 3. Each plot is from one of the 5 chains, chosen randomly and uniformly.}
+    \label{fig: traceplots scenario 3}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=20/scenario_3/posterior_predictive_check.png}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=100/scenario_3/posterior_predictive_check.png}
+    \end{center}
+    \caption[Posterior predictive checks for Scenario 3.]{Posterior predictive checks for Scenario 3. The parameters corresponding to these $ 5$ (for each $ n $) simulated values from $ \by $ were randomly and uniformly chosen across all samples from the posterior.}
+    \label{fig: posterior predictive check scenario 3}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=20/scenario_3/credibility_intervals.png}
+        \vspace{1cm}
+        \includegraphics[width=.6\textwidth]{../outputs/artificial_scenarios_n=100/scenario_3/credibility_intervals.png}
+    \end{center}
+    \caption[95\% credibility intervals for Scenario 3.]{95\% credibility intervals for Scenario 3. The red dots are the classical LASSO's predictions when fit using cross validation, and the black crosses are the true parameter values. The vertical red line corresponds to $ x = 0 $.}
+    \label{fig: credibility intervals scenario 3}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htb]
+    \begin{center}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=20/scenario_4/posterior_predictive_check.png}
+        \includegraphics[height=.5\textwidth]{../outputs/artificial_scenarios_n=100/scenario_4/posterior_predictive_check.png}
+    \end{center}
+    \caption[Posterior predictive checks for Scenario 4.]{Posterior predictive checks for Scenario 4. The parameters corresponding to these $ 5$ (for each $ n $) simulated values from $ \by $ were randomly and uniformly chosen across all samples from the posterior.}
+    \label{fig: posterior predictive check scenario 4}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htb]
+    \begin{center}
+        \vspace{-4cm}
+        \begin{minipage}{.47\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../outputs/artificial_scenarios_n=20/scenario_4/credibility_intervals.png}
+        \end{minipage}%
+        \begin{minipage}{.47\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../outputs/artificial_scenarios_n=100/scenario_4/credibility_intervals.png}
+        \end{minipage}
+    \end{center}
+    \caption[95\% credibility intervals for Scenario 4.]{95\% credibility intervals for Scenario 4. The red dots are the classical LASSO's predictions when fit using cross validation, and the black crosses are the true parameter values. The vertical red line corresponds to $ x = 0 $.}
+    \label{fig: credibility intervals scenario 4}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+    \centering
+    \includegraphics[width=.6\textwidth]{../outputs/diabetes_data/scenario_1/credibility_intervals.png}
+    \caption{95\% credibility intervals for Diabetes data with $ \delta = 1 $ and $ r = 1.78 $.}
+    \label{fig: diabetes credibility scenario 1}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+    \centering
+    \includegraphics[width=.6\textwidth]{../outputs/diabetes_data/scenario_2/credibility_intervals.png}
+    \caption{95\% credibility intervals for Diabetes data with $ \delta = 1 $ and $ r = 0.1 $.}
+    \label{fig: diabetes credibility scenario 2}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+    \centering
+    \includegraphics[width=.6\textwidth]{../outputs/diabetes_data/scenario_3/credibility_intervals.png}
+    \caption{95\% credibility intervals for Diabetes data with $ \delta = 1 $ and $ r = 10 $.}
+    \label{fig: diabetes credibility scenario 3}
 \end{figure}
