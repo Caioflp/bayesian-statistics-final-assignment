@@ -1,10 +1,12 @@
 import random
 
 import matplotlib.pyplot as plt
+import numpy as np
 import seaborn as sns
 import shutil
-from pathlib import Path
 from cmdstanpy import CmdStanModel
+from pathlib import Path
+from sklearn.linear_model import LassoCV
 
 from data import (
     generate_data_for_scenario_1,
@@ -17,6 +19,7 @@ from data import (
 
 SEED = 42
 OUTPUT_DIR = Path("outputs")
+LASSO = LassoCV()
 
 
 def artificial_scenarios_experiment(n_data_points=100):
@@ -54,7 +57,7 @@ def artificial_scenarios_experiment(n_data_points=100):
         with open(scenario_dir / "summary.tex", "w") as file:
             summary_to_save = summary.loc["lp__":"lambda", "N_Eff":"R_hat"].drop("N_Eff/s", axis=1)
             summary_to_save.columns = [column.replace("%", "\%") for column in summary_to_save.columns]
-            summary_to_save.to_latex(file)
+            summary_to_save.to_latex(file, escape=True)
 
         # Create traceplots
         if i != 4: # scenario 4 has 40 covariates
@@ -69,9 +72,9 @@ def artificial_scenarios_experiment(n_data_points=100):
                 ax.plot(samples[random.randint(0, 4)], linewidth=0.5)
                 ax.set_title(parameter)
                 ax.set_xlabel("iteration")
-            fig.suptitle("Trace plots for parameters")
+            fig.suptitle(f"Trace plots for parameters (n={n_data_points})")
             fig.tight_layout()
-            fig.savefig(scenario_dir / "traceplots.pdf")
+            fig.savefig(scenario_dir / "traceplots.png")
         
         # Plot posterior predictive check
         fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(10, 7), sharex=True, sharey=True)
@@ -85,8 +88,8 @@ def artificial_scenarios_experiment(n_data_points=100):
         axs.flatten()[0].set_title("Data")
         for j, iteration in enumerate(iterations, start=1):
             axs.flatten()[j].set_title(f"Iteration {iteration%10_000} from chain {iteration//10_000}")
-        fig.suptitle("Posterior predictive samples of y")
-        fig.savefig(scenario_dir / "posterior_predictive_check.pdf")
+        fig.suptitle(f"Posterior predictive samples of y (n={n_data_points})")
+        fig.savefig(scenario_dir / "posterior_predictive_check.png")
 
         # Plot 95% credibility intervals
         betas = fit.draws_pd().loc[:, "beta[1]":f"beta[{data['p']}]"]
@@ -104,17 +107,29 @@ def artificial_scenarios_experiment(n_data_points=100):
             fill=False,
             zorder=1
         )
+        # Compute frequentist LASSO predictions
+        lasso_beta = LASSO.fit(np.array(data["x"]), np.array(data["y"])).coef_
         true_beta = data["beta"]
+        ax.scatter(
+            x=lasso_beta,
+            y=list(range(len(true_beta))),
+            c="red",
+            marker="o",
+            zorder=2,
+            label="Classical LASSO"
+        )
         ax.scatter(
             x=true_beta,
             y=list(range(len(true_beta))),
-            c="red",
+            c="black",
             marker="x",
-            zorder=2,
+            zorder=3,
+            label="True parameter"
         )
+        ax.legend()
         ax.axvline(x=0, linestyle="--", alpha=0.5, color="red")
-        ax.set_title("95% credibility intervals")
-        fig.savefig(scenario_dir / "credibility_intervals.pdf")
+        ax.set_title(f"95% credibility intervals (n={n_data_points})")
+        fig.savefig(scenario_dir / "credibility_intervals.png")
 
 
 if __name__ == "__main__":
